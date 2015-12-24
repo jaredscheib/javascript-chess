@@ -1,16 +1,22 @@
+// chess piece constants
+const EMPTY = '', KING_W = '&#9812;', QUEEN_W = '&#9813;', ROOK_W = '&#9814;', BISHOP_W = '&#9815;', KNIGHT_W = '&#9816;', PAWN_W = '&#9817;', KING_B = '&#9818;', QUEEN_B = '&#9819;', ROOK_B = '&#9820;', BISHOP_B = '&#9821;', KNIGHT_B = '&#9822;', PAWN_B = '&#9823;';
+
+
 document.addEventListener('DOMContentLoaded', function (event){
   var canvas = document.getElementById('canvas');
   canvas.innerHTML = "<span>Native JavaScript Chess</span>";
 
   var board = generateBoard();
-  var pieces = placePieces(board);
+  canvas.appendChild(board);
+
+  var pieces = createPieceModel();
+  placePieces(board, pieces);
 });
 
 
-var generateBoard = function(width, height, parent) {
+var generateBoard = function(width, height) {
   width = width || 8;
   height = height || 8;
-  parent = parent || document.body;
   const TILE_DIM = 70;
 
   var board = document.createElement('div');
@@ -52,21 +58,49 @@ var generateBoard = function(width, height, parent) {
     board.appendChild(row);
   }
 
-  parent.appendChild(board);
-
   return board;
 };
 
+var createPieceModel = function () {
+  var model = [];
+  for (var i = 0; i < 8; i++) {
+    var row = [];
+    if (i === 0) row.push(ROOK_B, BISHOP_B, KNIGHT_B, QUEEN_B, KING_B, KNIGHT_B, BISHOP_B, ROOK_B);
+    else if (i === 1) row.push(PAWN_B, PAWN_B, PAWN_B, PAWN_B, PAWN_B, PAWN_B, PAWN_B, PAWN_B);
+    else if (i === 6) row.push(PAWN_W, PAWN_W, PAWN_W, PAWN_W, PAWN_W, PAWN_W, PAWN_W, PAWN_W);
+    else if (i === 7) row.push(ROOK_W, BISHOP_W, KNIGHT_W, QUEEN_W, KING_W, KNIGHT_W, BISHOP_W, ROOK_W);
+    else row.push(EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
+
+    model.push(row);
+  }
+
+
+  return model;
+};
+
 // get one piece to appear in one tile
-var placePieces = function (board) {
+var placePieces = function (board, pieces) {
   for (var i = 0; i < board.childNodes.length; i++) {
     var row = board.childNodes[i];
-    for (var j = 0; j < board.childNodes.length; j++) {
+    for (var j = 0; j < row.childNodes.length; j++) {
       var tile = row.childNodes[j];
       var piece = document.createElement('span');
-      piece.style.fontSize = '40px';
-      piece.innerHTML = '&#9812;';
-      if (i === 0 && j === 4) tile.appendChild(piece);
+      piece.className = 'piece noselect';
+      // piece.style.position = 'absolute';
+      // piece.style.top = '50%';
+      // piece.style.left = '50%';
+      // piece.style.transform = 'translateX(-50%) translateY(-50%)';
+      piece.style.display = 'flex';
+      piece.style.alignItems = 'center';
+      piece.style.justifyContent = 'center';
+      piece.style.fontSize = '60px';
+      // piece.style.margin = 'auto';
+      piece.style.padding = '0px';
+      piece.style.cssFloat = 'left';
+      piece.style.height = piece.style.width = '60px';
+
+      piece.innerHTML = pieces[i][j];
+      tile.appendChild(piece);
     }
   };
 };
