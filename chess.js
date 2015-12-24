@@ -16,8 +16,9 @@ document.addEventListener('DOMContentLoaded', function (event){
 
       tile.className = 'tile';
       tile.style.width = tile.style.height = '100px';
-      tile.style.backgroundColor = 'black';
+      tile.style.backgroundColor = i % 2 === 0 ? '#F4F4F4' : '#A3A3A3';
       tile.style.display = 'inline-block';
+      tile.style.border = '1px solid black';
       tile.style.margin = '0px';
       tile.style.padding = '0px';
 
