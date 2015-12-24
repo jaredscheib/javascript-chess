@@ -2,13 +2,47 @@ document.addEventListener('DOMContentLoaded', function (event){
   var canvas = document.getElementById('canvas');
   canvas.innerHTML = "<span>Native JavaScript Chess</span>";
 
-  var tile = document.createElement('div');
+  var createRow = function(repeat) {
+    repeat = repeat || 8;
 
-  // one 100x100 div where bg color is black
-  tile.style.width = tile.style.height = '100px';
-  tile.style.backgroundColor = 'black';
+    var row = document.createElement('div');
+    row.className = 'row';
+    row.style.display = 'block';
+    row.style.margin = '0px';
+    row.style.padding = '0px';
 
-  canvas.appendChild(tile);
+    for (var i = 0; i < repeat; i++) {
+      var tile = document.createElement('div');
 
-  console.log(canvas, canvas.childNodes, tile, tile.parentNode);
+      tile.className = 'tile';
+      tile.style.width = tile.style.height = '100px';
+      tile.style.backgroundColor = 'black';
+      tile.style.display = 'inline-block';
+      tile.style.margin = '0px';
+      tile.style.padding = '0px';
+
+      row.appendChild(tile);
+    }
+
+    return row;
+  };
+
+  var appendBoard = function(repeat, parent) {
+    repeat = repeat || 8;
+    parent = parent || document.body;
+
+    var board = document.createElement('div');
+    board.id = 'board';
+    board.className = 'board';
+    for (var i = 0; i < repeat; i++) {
+      board.appendChild(createRow());
+    }
+
+    parent.appendChild(board);
+
+    return board;
+  };
+
+  var board = appendBoard();
+  console.log(board);
 });
