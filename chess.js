@@ -13,6 +13,11 @@ document.addEventListener('DOMContentLoaded', function (event){
   placePieces(board, pieces);
 });
 
+document.addEventListener('click', function (event) {
+  if (event.target.className.indexOf('piece') !== -1) event.target.parentNode.classList.toggle('highlighted');
+  else if (event.target.className.indexOf('tile') !== -1) event.target.classList.toggle('highlighted');
+});
+
 
 var generateBoard = function(width, height) {
   width = width || 8;
@@ -65,10 +70,10 @@ var createPieceModel = function () {
   var model = [];
   for (var i = 0; i < 8; i++) {
     var row = [];
-    if (i === 0) row.push(ROOK_B, BISHOP_B, KNIGHT_B, QUEEN_B, KING_B, KNIGHT_B, BISHOP_B, ROOK_B);
+    if (i === 0) row.push(ROOK_B, KNIGHT_B, BISHOP_B, QUEEN_B, KING_B, BISHOP_B, KNIGHT_B, ROOK_B);
     else if (i === 1) row.push(PAWN_B, PAWN_B, PAWN_B, PAWN_B, PAWN_B, PAWN_B, PAWN_B, PAWN_B);
     else if (i === 6) row.push(PAWN_W, PAWN_W, PAWN_W, PAWN_W, PAWN_W, PAWN_W, PAWN_W, PAWN_W);
-    else if (i === 7) row.push(ROOK_W, BISHOP_W, KNIGHT_W, QUEEN_W, KING_W, KNIGHT_W, BISHOP_W, ROOK_W);
+    else if (i === 7) row.push(ROOK_W, KNIGHT_W, BISHOP_W, QUEEN_W, KING_W, BISHOP_W, KNIGHT_W, ROOK_W);
     else row.push(EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
 
     model.push(row);
